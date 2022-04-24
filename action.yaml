@@ -1,0 +1,35 @@
+name: GitHub repo replicator
+description: GitHub replicate upstream repo changes to origin repo.
+author: vladmalynych
+
+inputs:
+  upstream_repo:
+    description: Upstream repo URL (OWNER/REPO_NAME)
+    required: true
+  upstream_deploykey:
+    description: Upstream repo GitHub private deploykey (with pull permissions)
+    required: true
+  downstream_repo:
+    description: Downstream repo URL (OWNER/REPO_NAME)
+    required: true
+  downstream_deploykey:
+    description: Downstream repo GitHub private deploykey (with push permissions)
+    required: true
+  stream_branch:
+    description: Branch that should be streamed
+    default: master
+    required: false
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.upstream_repo }}
+    - ${{ inputs.upstream_deploykey }}
+    - ${{ inputs.downstream_repo }}
+    - ${{ inputs.downstream_deploykey }}
+    - ${{ inputs.stream_branch }}
+
+branding:
+  icon: "git-merge"
+  color: "blue"
